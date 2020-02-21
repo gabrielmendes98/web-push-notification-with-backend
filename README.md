@@ -2,7 +2,7 @@
 Creating webpush notifications using backend (for server push) and frontend to display it
 
 <h3>Frontend:</h3>
-```npm install -g http-server``` <br>
+npm install -g http-server <br>
 run: http-server
 
 <h3>Backend:</h3>
