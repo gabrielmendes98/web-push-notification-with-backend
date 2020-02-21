@@ -9,4 +9,4 @@ run: http-server
 npm init<br>
 npm install --save express<br>
 npm install --save web-push<br>
-run: `node index.js`
+run: node index.js
