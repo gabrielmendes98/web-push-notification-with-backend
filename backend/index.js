@@ -46,8 +46,10 @@ const sendNotification = (subscription, dataToSend = '') => {
 //route to test send notification
 app.get('/send-notification', (req, res) => {
   const subscription = dummyDb.subscription; //get subscription from your databse here.
-  const message = 'Hello World';
-  sendNotification(subscription, message);
+  const message = 'Hello World from OnYou';
+  const title = 'OnYou'
+  const payload = {title: title, message: message}
+  sendNotification(subscription, JSON.stringify(payload));
   res.json({ message: 'message sent' });
 });
 

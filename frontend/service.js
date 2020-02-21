@@ -52,7 +52,10 @@ self.addEventListener('activate', async () => {
 self.addEventListener('push', function(event) {
   if (event.data) {
     console.log('Push event!! ', event.data.text());
-    showLocalNotification('Title', event.data.text(), self.registration);
+    const payload = JSON.parse(event.data.text());
+    const title = payload.title;
+    const message = payload.message;
+    showLocalNotification(title, message, self.registration);
   } else {
     console.log('Push event but no data');
   }

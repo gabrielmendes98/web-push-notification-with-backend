@@ -8,9 +8,9 @@ const check = () => {
     }
 }
 
-// I added a function that can be used to register a service worker.
+// Function to register a service worker.
 const registerServiceWorker = async () => {
-    const swRegistration = await navigator.serviceWorker.register('service.js'); //notice the file name
+    const swRegistration = await navigator.serviceWorker.register('service.js');
     return swRegistration;
 }
 
@@ -26,21 +26,10 @@ const requestNotificationPermission = async () => {
     }
 }
 
-// Just local notification to test -- real application needs backend server to send this
-// In practical use cases we will call showNotification from the service.js file.
-// const showLocalNotification = (title, body, swRegistration) => {
-//     const options = {
-//         body,
-//         // here you can add more properties like icon, image, vibrate, etc.
-//     };
-//     swRegistration.showNotification(title, options);
-// }
-
 const main = async () => { //notice I changed main to async function so that I can use await for registerServiceWorker
     check();
     const swRegistration = await registerServiceWorker();
     const permission =  await requestNotificationPermission(); // show the ask for notification popup
-    // showLocalNotification('This is title', 'this is the message', swRegistration);
 }
 
 // main();
