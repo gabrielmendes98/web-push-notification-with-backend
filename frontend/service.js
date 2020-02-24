@@ -55,15 +55,17 @@ self.addEventListener('push', function(event) {
     const payload = JSON.parse(event.data.text());
     const title = payload.title;
     const message = payload.message;
-    showLocalNotification(title, message, self.registration);
+    const icon = payload.icon;
+    showLocalNotification(title, message, icon, self.registration);
   } else {
     console.log('Push event but no data');
   }
 });
 
-const showLocalNotification = (title, body, swRegistration) => {
+const showLocalNotification = (title, body, icon, swRegistration) => {
   const options = {
-    body
+    body,
+    icon
     // here you can add more properties like icon, image, vibrate, etc.
   };
   swRegistration.showNotification(title, options);
