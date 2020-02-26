@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const webpush = require('web-push'); //requiring the web-push module
+const webpush = require('web-push');
 
 const app = express();
 app.use(cors());
@@ -27,8 +27,8 @@ webpush.setVapidDetails(
 const dummyDb = { subscription: null }; //dummy in memory store
 
 const saveToDatabase = async subscription => {
-  // Since this is a demo app, I am going to save this in a dummy in memory store. Do not do this in your apps.
-  // Here you should be writing your db logic to save it.
+  // Save subscription in a dummy in memory store.
+  // Write your db logic to save it.
   dummyDb.subscription = subscription;
 };
 // The new /save-subscription endpoint
@@ -48,7 +48,7 @@ app.get('/send-notification', (req, res) => {
   const subscription = dummyDb.subscription; //get subscription from your databse here.
   const message = 'Hello World from OnYou';
   const title = 'OnYou';
-  const icon = '../public/img/icons/ic-onyou.png';
+  const icon = './public/img/icons/ic-onyou.png';
   const payload = { title, message, icon };
   sendNotification(subscription, JSON.stringify(payload));
   res.json({ message: 'message sent' });
