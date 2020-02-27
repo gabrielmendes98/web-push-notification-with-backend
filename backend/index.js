@@ -1,11 +1,18 @@
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const webpush = require('web-push'); //requiring the web-push module
+const webpush = require('web-push');
+const https = require('https');
+const fs = require('fs');
 
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
+
+const options = {
+  key: fs.readFileSync('server.key'),
+  cert: fs.readFileSync('server.cert')
+};
 
 const port = 4000;
 
@@ -27,8 +34,8 @@ webpush.setVapidDetails(
 const dummyDb = { subscription: null }; //dummy in memory store
 
 const saveToDatabase = async subscription => {
-  // Since this is a demo app, I am going to save this in a dummy in memory store. Do not do this in your apps.
-  // Here you should be writing your db logic to save it.
+  // Save subscription in a dummy in memory store.
+  // Write your db logic to save it.
   dummyDb.subscription = subscription;
 };
 // The new /save-subscription endpoint
@@ -47,10 +54,15 @@ const sendNotification = (subscription, dataToSend = '') => {
 app.get('/send-notification', (req, res) => {
   const subscription = dummyDb.subscription; //get subscription from your databse here.
   const message = 'Hello World from OnYou';
-  const title = 'OnYou'
-  const payload = {title: title, message: message}
+  const title = 'OnYou';
+  const icon = './public/img/icons/ic-onyou.png';
+  const payload = { title, message, icon };
   sendNotification(subscription, JSON.stringify(payload));
   res.json({ message: 'message sent' });
 });
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+app.listen(port, () => console.log(`Server running at: http://localhost:${port}/`));
+
+// https.createServer(options, app).listen(port, function(){
+//   console.log(`App listening on https://localhost:${port}/`);
+// });

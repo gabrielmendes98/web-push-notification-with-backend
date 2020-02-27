@@ -1,10 +1,3 @@
-//The worker thread (service worker) should be used for waiting for push messages/events and showing the notifications.
-
-// console.log('Hello from service worker')
-
-// get the value of push subscription
-// const subscription = await self.registration.pushManager.getSubscription()
-
 // urlB64ToUint8Array is a magic function that will encode the base64 public key
 // to Array buffer which is needed by the subscription option
 const urlB64ToUint8Array = base64String => {
@@ -55,15 +48,17 @@ self.addEventListener('push', function(event) {
     const payload = JSON.parse(event.data.text());
     const title = payload.title;
     const message = payload.message;
-    showLocalNotification(title, message, self.registration);
+    const icon = payload.icon;
+    showLocalNotification(title, message, icon, self.registration);
   } else {
     console.log('Push event but no data');
   }
 });
 
-const showLocalNotification = (title, body, swRegistration) => {
+const showLocalNotification = (title, body, icon, swRegistration) => {
   const options = {
-    body
+    body,
+    icon
     // here you can add more properties like icon, image, vibrate, etc.
   };
   swRegistration.showNotification(title, options);

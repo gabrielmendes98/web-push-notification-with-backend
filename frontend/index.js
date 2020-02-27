@@ -1,8 +1,19 @@
 // Function to register a service worker.
 const registerServiceWorker = async () => {
-    const swRegistration = await navigator.serviceWorker.register('service.js');
-    return swRegistration;
-}
+  const swRegistration = await navigator.serviceWorker
+    .register('service.js', {
+      scope: '/'
+    })
+    .then(function(reg) {
+      // registration worked
+      console.log('Registration succeeded. Scope is ' + reg.scope);
+    })
+    .catch(function(error) {
+      // registration failed
+      console.log('Registration failed with ' + error);
+    });
+  return swRegistration;
+};
 
 // get permission from the user
 const requestNotificationPermission = async () => {
@@ -18,7 +29,7 @@ const requestNotificationPermission = async () => {
     }
 }
 
-const main = async () => { //notice I changed main to async function so that I can use await for registerServiceWorker
+const main = async () => { 
     console.log(`Notification permission: ${Notification.permission}`)
     if (!('serviceWorker' in navigator)) {
       throw new Error('No Service Worker support!')
